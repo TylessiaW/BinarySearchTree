@@ -56,6 +56,18 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
         size = 0;
     }
 
+    public int getHeight() {
+        return getHeight(root);
+    }
+
+    private int getHeight(Node current) {
+        if(current == null) {
+            return -1;
+        }
+
+        return Math.max(getHeight(current.leftChild), getHeight(current.rightChild)) + 1;
+    }
+
     @Override
     public String toString() {
         return inOrderString();
