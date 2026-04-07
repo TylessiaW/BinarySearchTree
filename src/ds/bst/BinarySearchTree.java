@@ -1,5 +1,8 @@
 package ds.bst;
 
+import java.util.Queue;
+import java.util.LinkedList;
+
 public class BinarySearchTree<T extends Comparable<? super T>> {
 
     private Node root;
@@ -28,7 +31,6 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
 
     private boolean add(Node parent, Node current, T newData) {
         if (current == null) {
-            // add newData to the tree using parent
             int result = newData.compareTo(parent.data);
 
             if (result < 0) {
@@ -38,11 +40,11 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
             }
 
             return true;
-        } else if (newData.compareTo(current.data) < 0) { // go left
+        } else if (newData.compareTo(current.data) < 0) {
             return add(current, current.leftChild, newData);
-        } else if (newData.compareTo(current.data) > 0) { // go right
+        } else if (newData.compareTo(current.data) > 0) {
             return add(current, current.rightChild, newData);
-        } else { // newData == current.data
+        } else {
             return false;
         }
     }
@@ -61,7 +63,7 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
     }
 
     private int getHeight(Node current) {
-        if(current == null) {
+        if (current == null) {
             return -1;
         }
 
@@ -94,6 +96,46 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
             sb.append(current.data);
 
             inOrderString(current.rightChild, sb);
+        }
+    }
+
+    public String debugLevelOrderString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("DEBUG {");
+
+        if (!isEmpty()) {
+            debugLevelOrderString(sb);
+        }
+
+        sb.append("}");
+        return sb.toString();
+    }
+
+    private void debugLevelOrderString(StringBuilder sb) {
+        Queue<Node> queue = new LinkedList<>();
+        queue.add(root);
+
+        String repr = "(LC: %s | Me: %s | RC: %s)";
+
+        while (!queue.isEmpty()) {
+            Node current = queue.remove();
+
+            String leftChildData = (current.leftChild == null) ? "null" : current.leftChild.data.toString();
+            String rightChildData = (current.rightChild == null) ? "null" : current.rightChild.data.toString();
+
+            sb.append(String.format(repr, leftChildData, current.data, rightChildData));
+
+            if (current.leftChild != null) {
+                queue.add(current.leftChild);
+            }
+
+            if (current.rightChild != null) {
+                queue.add(current.rightChild);
+            }
+
+            if (!queue.isEmpty()) {
+                sb.append(", ");
+            }
         }
     }
 

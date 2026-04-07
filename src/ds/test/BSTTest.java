@@ -13,11 +13,6 @@ public class BSTTest {
         bst.add(75);
         bst.add(65);
 
-        System.out.println(bst);
-
-        System.out.println("Add duplicate: " + bst.add(35));
-        System.out.println("Add 80: " + bst.add(80));
-
-        System.out.println(bst);
-    }
+        System.out.println(bst.debugLevelOrderString());
+       }
 }
