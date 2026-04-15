@@ -191,6 +191,19 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
         return c;
     }
 
+    private Node leftRotation(Node n) {
+        Node c = n.rightChild;
+        Node t2 = c.leftChild;
+
+        c.leftChild = n;
+        n.rightChild = t2;
+
+        fixHeight(n);
+        fixHeight(c);
+
+        return c;
+    }
+
     @Override
     public String toString() {
         return inOrderString();
