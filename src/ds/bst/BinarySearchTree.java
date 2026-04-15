@@ -27,16 +27,21 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
     }
 
     private boolean removeTraversal(Node parent, Node current, T item) {
+        boolean wasRemoved = false;
         if (current == null) {
             return false;
         } else if (item.compareTo(current.data) < 0) {
-            return removeTraversal(current, current.leftChild, item);
+            wasRemoved = removeTraversal(current, current.leftChild, item);
         } else if (item.compareTo(current.data) > 0) {
-            return removeTraversal(current, current.rightChild, item);
+            wasRemoved = removeTraversal(current, current.rightChild, item);
         } else {
             removeNode(parent, current);
-            return true;
+            wasRemoved = true;
         }
+
+        fixHeight(current);
+
+        return wasRemoved;
     }
 
     private void removeNode(Node parent, Node current) {
@@ -98,6 +103,9 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
         } else {
             removeCase4(swapNode, current, current.leftChild);
         }
+
+        fixHeight(current);
+
     }
 
     public boolean add(T newData) {
@@ -118,6 +126,7 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
     }
 
     private boolean add(Node parent, Node current, T newData) {
+        boolean wasAdded = false;
         if (current == null) {
             int result = newData.compareTo(parent.data);
 
@@ -129,12 +138,16 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
 
             return true;
         } else if (newData.compareTo(current.data) < 0) {
-            return add(current, current.leftChild, newData);
+            wasAdded = add(current, current.leftChild, newData);
         } else if (newData.compareTo(current.data) > 0) {
-            return add(current, current.rightChild, newData);
+            wasAdded = add(current, current.rightChild, newData);
         } else {
             return false;
         }
+
+        fixHeight(current);
+
+        return wasAdded;
     }
 
     public boolean isEmpty() {
@@ -210,7 +223,7 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
         Queue<Node> queue = new LinkedList<>();
         queue.add(root);
 
-        String repr = "(LC: %s | Me: %s | RC: %s)";
+        String repr = "(LH: %dLC: %s | Me: %s | RH: %d RC: %s)";
 
         while (!queue.isEmpty()) {
             Node current = queue.remove();
@@ -218,7 +231,7 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
             String leftChildData = (current.leftChild == null) ? "null" : current.leftChild.data.toString();
             String rightChildData = (current.rightChild == null) ? "null" : current.rightChild.data.toString();
 
-            sb.append(String.format(repr, leftChildData, current.data, rightChildData));
+            sb.append(String.format(repr, current.leftHeight, leftChildData, current.data, current.rightHeight, rightChildData));
 
             if (current.leftChild != null) {
                 queue.add(current.leftChild);

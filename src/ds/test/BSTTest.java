@@ -6,6 +6,9 @@ public class BSTTest {
 
     public static void main(String[] args) {
         BinarySearchTree<Integer> bst = new BinarySearchTree<>();
+
+        System.out.println(bst);
+
         bst.add(50);
         bst.add(25);
         bst.add(75);
@@ -13,9 +16,9 @@ public class BSTTest {
         bst.add(67);
 
 
-        System.out.println(bst);
-        System.out.println(bst.remove(67));
+    
+        System.out.println(bst.getHeight());
         System.out.println(bst.debugLevelOrderString());
-        System.out.println(bst.remove(67));
+
        }
 }
