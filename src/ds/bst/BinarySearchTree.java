@@ -155,7 +155,14 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
             return -1;
         }
 
-        return Math.max(getHeight(current.leftChild), getHeight(current.rightChild)) + 1;
+        return Math.max(current.leftHeight, current.rightHeight) + 1;
+    }
+
+    private void fixHeight(Node node) {
+        if(node != null) {
+            node.leftHeight = getHeight(node.leftChild);
+            node.rightHeight = getHeight(node.rightChild);
+        }
     }
 
     @Override
@@ -231,8 +238,13 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
         private Node leftChild, rightChild;
         private T data;
 
+        private int leftHeight, rightHeight;
+
         public Node(T data) {
             this.data = data;
+
+            leftHeight = -1;
+            rightHeight = -1;
         }
     }
 }
