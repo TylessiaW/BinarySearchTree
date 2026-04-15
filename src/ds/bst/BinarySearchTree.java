@@ -191,6 +191,48 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
         return c;
     }
 
+    private int balance(Node node) {
+        return node.leftHeight - node.rightHeight;
+    }
+
+    private void rebalance(Node node) {
+        if(node == null) {
+            return;
+        }
+            //Node's left subtree
+        if(balance(node) > 1) {
+            if(balance(node) > 1) {
+                if(balance(node.leftChild) < 0){
+                    node.leftChild = leftRotation(node.leftChild); 
+                }
+            }
+
+            if(parent == null) {
+                root = rightRotation(node);
+            } else if(parent.leftChild == node) {
+                parent.leftChild = rightRotation(node);
+            } else {
+                parent.rightChild = rightRotation(node);
+            }
+
+            //Node's right subtree
+        } else if(balance(node) < -1) {
+            if(balance(node.rightChild) > 0) {
+                node.rightChild = rightRotation(node.rightChild);
+            }
+            
+            if(parent == null) {
+                root = leftRotation(node);
+            } else if(parent.leftChild == node) {
+                parent.leftChild = leftRotation(node);
+            } else {
+                parent.rightChild = leftRotation(node);
+            }
+
+        } 
+
+    }
+
     private Node leftRotation(Node n) {
         Node c = n.rightChild;
         Node t2 = c.leftChild;
