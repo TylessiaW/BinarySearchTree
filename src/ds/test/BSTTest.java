@@ -12,8 +12,8 @@ public class BSTTest {
         bst.add(50);
         bst.add(25);
         bst.add(75);
-        bst.add(65);
-        bst.add(67);
+        bst.add(85);
+        bst.add(80);
 
 
     
